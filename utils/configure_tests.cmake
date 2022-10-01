@@ -3,8 +3,8 @@ cmake_minimum_required (VERSION 3.22 FATAL_ERROR)
 function(configure_tests SUBDIR LIBRARIES)
 
   if (NOT TARGET check)
-    add_custom_target(check ${CMAKE_CTEST_COMMAND})
-    add_custom_target(check_detail ${CMAKE_CTEST_COMMAND} -V)
+    add_custom_target(check ${CMAKE_CTEST_COMMAND} WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    add_custom_target(check_detail ${CMAKE_CTEST_COMMAND} -V WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
   endif()
   
   foreach(NAME ${ARGN})
