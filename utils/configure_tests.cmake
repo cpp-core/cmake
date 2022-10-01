@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.22 FATAL_ERROR)
 
 function(configure_tests SUBDIR LIBRARIES)
+
   if (NOT TARGET check)
     add_custom_target(check ${CMAKE_CTEST_COMMAND})
     add_custom_target(check_detail ${CMAKE_CTEST_COMMAND} -V)
@@ -18,7 +19,10 @@ function(configure_tests SUBDIR LIBRARIES)
     endif()
 
     add_executable(${TEST_NAME} EXCLUDE_FROM_ALL ${TEST_FILE})
-    add_test(${TEST_NAME} bin/${TEST_NAME})
+    
+    gtest_discover_tests(${TEST_NAME}
+      WORKING_DIRECTORY ${PROJECT_DIR}
+      )
 
     target_link_libraries(${TEST_NAME} PUBLIC ${LIBRARIES})
     target_include_directories(${TEST_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
