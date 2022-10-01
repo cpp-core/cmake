@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
+
+macro(add_fmt)
+  if (NOT TARGET fmt::fmt)
+    find_package(fmt QUIET)
+    if (NOT TARGET fmt::fmt)
+      set(FMT_INSTALL ON CACHE INTERNAL "Have fmt create the install target")
+      add_subdirectory(extern/fmt)
+    endif()
+  endif()
+endmacro()

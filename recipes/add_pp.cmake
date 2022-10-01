@@ -1,0 +1,10 @@
+cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
+
+macro(add_pp)
+  if (NOT TARGET pp::pp)
+    find_package(pp QUIET)
+    if (NOT TARGET pp::pp)
+      add_subdirectory(extern/pp)
+    endif()
+  endif()
+endmacro()
