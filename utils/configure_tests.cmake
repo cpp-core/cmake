@@ -22,6 +22,7 @@ function(configure_tests SUBDIR LIBRARIES)
     
     gtest_discover_tests(${TEST_NAME}
       WORKING_DIRECTORY ${PROJECT_DIR}
+      DISCOVERY_MODE PRE_TEST
       )
 
     target_link_libraries(${TEST_NAME} PUBLIC ${LIBRARIES})
