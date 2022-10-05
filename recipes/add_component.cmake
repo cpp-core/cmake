@@ -1,0 +1,17 @@
+cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
+
+include(${CMAKE_CURRENT_LIST_DIR}/../utils/missing_error.cmake)
+
+macro(add_component PACKAGE TARGET DIR)
+  if (NOT TARGET ${TARGET})
+    find_package(${PACKAGE} QUIET)
+    if (NOT TARGET ${TARGET})
+      set(SOURCE_DIR ${CPP_CORE_SOURCE_DIR}/components/${DIR})
+      set(BINARY_DIR ${CPP_CORE_BINARY_DIR}/components/${DIR})
+      if (NOT EXISTS ${SOURCE_DIR})
+	missing_error(${PACKAGE} ${TARGET} ${SOURCE_DIR})
+      endif()
+      add_subdirectory(${SOURCE_DIR} ${BINARY_DIR})
+    endif()
+  endif()
+endmacro()
