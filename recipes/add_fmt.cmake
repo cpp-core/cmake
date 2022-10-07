@@ -4,5 +4,5 @@ include(${CMAKE_CURRENT_LIST_DIR}/add_component.cmake)
 
 macro(add_fmt)
   set(FMT_INSTALL ON CACHE INTERNAL "Have fmt create the install target")
-  add_component(fmt fmt::fmt fmt)
+  add_component(fmt)
 endmacro()

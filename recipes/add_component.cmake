@@ -2,7 +2,25 @@ cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../utils/missing_error.cmake)
 
-macro(add_component PACKAGE TARGET DIR)
+macro(add_component PACKAGE)
+  cmake_parse_arguments(AC "" "TARGET;DIR" "" ${ARGN})
+
+  if (${AC_UNPARSED_ARGUMENTS})
+    message(FATAL_ERROR "Too many arguments to add_component")
+  endif()
+  
+  if (DEFINED AC_TARGET)
+    set(TARGET ${AC_TARGET})
+  else()
+    set(TARGET ${PACKAGE}::${PACKAGE})
+  endif()
+  
+  if (DEFINED AC_DIR)
+    set(DIR ${AC_DIR})
+  else()
+    set(DIR ${PACKAGE})
+  endif()
+
   if (NOT TARGET ${TARGET})
     find_package(${PACKAGE} QUIET)
     if (NOT TARGET ${TARGET})
