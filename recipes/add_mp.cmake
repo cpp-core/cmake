@@ -1,7 +1,9 @@
 cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 
-include(${CMAKE_CURRENT_LIST_DIR}/add_component.cmake)
-
 function(add_mp)
-  add_component(mp)
+  return_if_target(mp)
+  maybe_add_subdirectory(mp)
+  maybe_find_package(mp)
+  maybe_fetch_content(mp)
+  missing_error(mp mp ${CPP_CORE_DIR})
 endfunction()
