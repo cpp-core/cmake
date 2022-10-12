@@ -8,7 +8,7 @@ function(add_fmt)
   set(CMAKE_BUILD_TYPE Release)
   maybe_add_subdirectory(fmt)
   maybe_find_package(fmt)
-  maybe_fetch_content(fmt)
+  maybe_fetch_content(fmt TAG 8.1.1)
   
   missing_error(fmt fmt ${CPP_CORE_DIR})
 endfunction()
