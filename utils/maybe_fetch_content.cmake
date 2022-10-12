@@ -13,6 +13,12 @@ macro(maybe_fetch_content NAME)
   else()
     set(TAG main)
   endif()
+
+  if(MFC_TARGETS)
+    set(TARGETS ${MFC_TARGETS})
+  else()
+    list(APPEND TARGETS ${NAME})
+  endif()
   
   FetchContent_Declare(
     ${NAME}
@@ -21,10 +27,12 @@ macro(maybe_fetch_content NAME)
     )
   
   FetchContent_MakeAvailable(${NAME})
-  
-  if (TARGET ${NAME})
-    message("-- ${NAME}: Fetched content directly from repo")
-    return()
-  endif()
+
+  foreach(target ${TARGETS})
+    if(TARGET ${target})
+      message("-- ${NAME}: Fetched content directly from repo")
+      return()
+    endif()
+  endforeach()
   
 endmacro()
