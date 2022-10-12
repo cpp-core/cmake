@@ -1,9 +1,14 @@
 cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 
-include(${CMAKE_CURRENT_LIST_DIR}/add_component.cmake)
+function(add_gtest_impl)
+  maybe_add_subdirectory(googletest)
+  maybe_find_package(GTest)
+  maybe_fetch_content(googletest)
+  missing_error(GTest googletest ${CPP_CORE_DIR}/googletest)
+endfunction()
 
 macro(add_gtest)
   include(GoogleTest)
   enable_testing()
-  add_component(GTest TARGET GTest::gtest DIR googletest)
+  add_gtest_impl()
 endmacro()
