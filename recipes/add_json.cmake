@@ -1,8 +1,12 @@
 cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 
-include(${CMAKE_CURRENT_LIST_DIR}/add_component.cmake)
-
 function(add_json)
+  return_if_target(nlohmann_json::nlohmann_json)
+  
   set(JSON_Install ON CACHE INTERNAL "Have json create the install target")
-  add_component(json TARGET nlohmann_json::nlohmann_json)
+  maybe_add_subdirectory(json)
+  maybe_find_package(nlohmann_json)
+  maybe_fetch_content(json TAG v3.11.2)
+
+  missing_error(json nlohmann_json::nlohmann_json ${CPP_CORE_DIR}/json)
 endfunction()
