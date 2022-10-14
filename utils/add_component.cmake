@@ -5,6 +5,7 @@ macro(add_component NAME)
     "" # options
     "DIR;TAG" # single-value args
     "TARGETS" # multi-value args
+    ${ARGN}
     )
 
   if(AP_DIR)
@@ -27,21 +28,23 @@ macro(add_component NAME)
 
   return_if_target(${TARGETS})
 
+  message("-- ${NAME}: Searching for ${TARGETS}")
+
   if(CPP_CORE_DIR AND EXISTS ${CPP_CORE_DIR}/${DIR})
-    message("-- ${NAME}: Added subdirectory: ${CPP_CORE_DIR}/${DIR}")
+    message("-- ${NAME}: Adding subdirectory: ${CPP_CORE_DIR}/${DIR}")
     add_subdirectory(${CPP_CORE_DIR}/${DIR} ${CMAKE_BINARY_DIR}/${DIR})
   else()
     find_package(${NAME} QUIET)
     if(${NAME}_FOUND)
       message("-- ${NAME}: Found installed package: ${NAME}_DIR")
     else()
+      message("-- ${NAME}: Fetching from repo: ${DIR}")
       FetchContent_Declare(
 	${NAME}
 	GIT_REPOSITORY https://github.com/cpp-core/${DIR}
 	GIT_TAG ${TAG}
 	)
       FetchContent_MakeAvailable(${NAME})
-      message("-- ${NAME}: Fetched from repo: ${DIR}")
     endif()
   endif()
 endmacro()
