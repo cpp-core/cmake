@@ -35,7 +35,7 @@ function(add_zstd)
   
     add_library(zstd::libzstd_static ALIAS libzstd_static)
     target_include_directories(libzstd_static PUBLIC
-      $<BUILD_INTERFACE:${CPP_CORE_SOURCE_DIR}/components/zstd/lib>)
+      $<BUILD_INTERFACE:${zstd_SOURCE_DIR}/lib>)
   endif()
   
 endfunction()
