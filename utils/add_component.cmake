@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 macro(add_component NAME)
   cmake_parse_arguments(AP
     "" # options
-    "DIR;TAG" # single-value args
+    "DIR;TAG;REPO" # single-value args
     "TARGETS" # multi-value args
     ${ARGN}
     )
@@ -18,6 +18,12 @@ macro(add_component NAME)
     set(TAG ${AP_TAG})
   else()
     set(TAG main)
+  endif()
+
+  if(AP_REPO)
+    set(REPO ${AP_REPO})
+  else()
+    set(REPO "cpp-core")
   endif()
 
   if(AP_TARGETS)
@@ -41,7 +47,7 @@ macro(add_component NAME)
       message("-- ${NAME}: Fetching from repo: ${DIR}")
       FetchContent_Declare(
 	${NAME}
-	GIT_REPOSITORY https://github.com/cpp-core/${DIR}
+	GIT_REPOSITORY https://github.com/${REPO}/${DIR}
 	GIT_TAG ${TAG}
 	)
       FetchContent_MakeAvailable(${NAME})
