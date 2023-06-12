@@ -16,13 +16,15 @@ macro(add_repo REPO)
   endif()
   
   find_package(${NAME} QUIET)
+  
   if(${NAME}_FOUND)
-    message("-- ${NAME}: Found installed package: ${NAME}_DIR")
+    message("-- ${NAME}: Found installed package")
   else()
-    message("-- ${NAME}: Fetching package ${NAME} from repo: ${URL}/${REPO}")
+    message("-- ${NAME}: Including package ${NAME} from repo: ${URL}/${REPO}")
     FetchContent_Declare(${NAME}
       GIT_REPOSITORY ${URL}/${REPO}
-      GIT_TAG main)
+      GIT_TAG main
+      FIND_PACKAGE_ARGS)
     FetchContent_MakeAvailable(${NAME})
   endif()
 endmacro()
