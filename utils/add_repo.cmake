@@ -1,7 +1,13 @@
 cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 
-macro(add_repo REPO)
+macro(add_repo PROJECT)
   cmake_parse_arguments(AP "" "URL;NAME" "" ${ARGN})
+
+  if(${PROJECT} MATCHES ".*/.*")
+    set(REPO ${PROJECT})
+  else()
+    set(REPO "cpp-core/${PROJECT}")
+  endif()
 
   if(AP_URL)
     set(URL ${AP_URL})
