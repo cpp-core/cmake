@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 
 macro(add_repo PROJECT)
-  cmake_parse_arguments(AP "" "URL;NAME" "" ${ARGN})
+  cmake_parse_arguments(AP "" "URL;TAG;NAME" "" ${ARGN})
 
   if(${PROJECT} MATCHES ".*/.*")
     set(REPO ${PROJECT})
@@ -15,6 +15,12 @@ macro(add_repo PROJECT)
     set(URL "https://github.com")
   endif()
 
+  if(AP_TAG)
+    set(TAG ${AP_TAG})
+  else()
+    set(TAG main)
+  endif()
+  
   if(AP_NAME)
     set(NAME ${NAME})
   else()
@@ -29,7 +35,7 @@ macro(add_repo PROJECT)
     message("-- ${NAME}: Including package ${NAME} from repo: ${URL}/${REPO}")
     FetchContent_Declare(${NAME}
       GIT_REPOSITORY ${URL}/${REPO}
-      GIT_TAG main
+      GIT_TAG ${TAG}
       FIND_PACKAGE_ARGS)
     FetchContent_MakeAvailable(${NAME})
   endif()
