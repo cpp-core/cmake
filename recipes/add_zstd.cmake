@@ -6,7 +6,7 @@ function(add_zstd)
   set(NAME zstd)
   set(TARGETS zstd::libzstd_static)
   set(DIR zstd)
-  set(TAG v1.4.10)
+  set(TAG v1.5.6)
   
   message("-- ${NAME}: Searching for ${TARGETS}")
 
